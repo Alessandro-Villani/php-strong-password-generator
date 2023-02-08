@@ -26,13 +26,18 @@ include 'partials/characters.php';
         <h2>Genera una Password sicura</h2>
     </header>
     <main class="container">
-        <form action="" class="card d-flex p-5">
-            <div class="row row-cols-2">
+        <form action="" method="GET" class="card d-flex p-5">
+            <div class="row row-cols-2 mb-3">
                 <div class="col">
                     <label for="pw-lenght">Lunghezza Password:</label>
                 </div>
                 <div class="col">
                     <input type="number" id="pw-lenght" name="pw-lenght" min="8" max="20">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-primary">Invia</button>
                 </div>
             </div>
         </form>
