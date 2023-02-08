@@ -1,0 +1,11 @@
+body {
+    background-color: darkblue;
+}
+
+header {
+    color: white;
+}
+
+header h1{
+    opacity: 0.5;
+}
