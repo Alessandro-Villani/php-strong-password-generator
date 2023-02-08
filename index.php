@@ -4,11 +4,12 @@ include 'partials/characters.php';
 include 'partials/functions.php';
 
 $pw_length = $_GET['pw-lenght'] ?? null;
+$repeat = $_GET['repeat'] ?? 'yes';
 
 if ($pw_length) {
     session_start();
 
-    $_SESSION['generated_password'] = random_password($pw_length, $characters);
+    $_SESSION['generated_password'] = random_password($pw_length, $merged_characters, $repeat);
 
     header('Location: ./pw_page.php');
 }
@@ -37,11 +38,22 @@ if ($pw_length) {
     <main class="container">
         <form action="" method="GET" class="card d-flex p-5">
             <div class="row row-cols-2 mb-3">
-                <div class="col">
+                <div class="col mb-3">
                     <label for="pw-lenght">Lunghezza Password:</label>
                 </div>
                 <div class="col">
                     <input type="number" id="pw-lenght" name="pw-lenght" min="8" max="20" value="<?= $pw_length ?>">
+                </div>
+                <div class="col">
+                    <p>Consenti la ripetizione di uno o più caratteri</p>
+                </div>
+                <div class="col d-flex flex-column align-items-start">
+                    <div>
+                        <input class="mb-2" type="radio" name="repeat" value="yes" id="yes" <?= $repeat === 'yes' ? 'checked' : '' ?>> <label for="yes">Si</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="repeat" value="no" id="no" <?= $repeat === 'no' ? 'checked' : '' ?>><label for="no">No</label>
+                    </div>
                 </div>
             </div>
             <div class="row">
