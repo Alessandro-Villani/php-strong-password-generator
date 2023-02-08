@@ -1,5 +1,5 @@
 <?php
-function random_numbers($quantity, $max, $repeat)
+function generate_random_numbers($quantity, $max, $repeat)
 {
     $random_numbers = [];
 
@@ -17,15 +17,24 @@ function random_numbers($quantity, $max, $repeat)
     return $random_numbers;
 }
 
-function random_password($length, $characters, $repeat)
+function generate_random_password($length, $characters, $repeat)
 {
     if (!$length || $length < 8 || $length > 20) {
         return;
     }
     $generated_password = '';
-    $random_numbers = random_numbers($length, count($characters) - 1, $repeat);
+    $random_numbers = generate_random_numbers($length, count($characters) - 1, $repeat);
     for ($i = 0; $i < count($random_numbers); $i++) {
         $generated_password .= $characters[$random_numbers[$i]];
     }
     return $generated_password;
 };
+
+function get_characters_array($type1, $type2, $type3, $default)
+{
+    if (!$type1 && !$type2 && !$type3) {
+        return $default;
+    } else {
+        return array_merge($type1, $type2, $type3);
+    }
+}

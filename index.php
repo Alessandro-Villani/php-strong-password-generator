@@ -5,11 +5,18 @@ include 'partials/functions.php';
 
 $pw_length = $_GET['pw-lenght'] ?? null;
 $repeat = $_GET['repeat'] ?? 'yes';
+$letters_selected = $_GET['letters'] ?? false;
+$numbers_selected = $_GET['numbers'] ?? false;
+$symbols_selected = $_GET['symbols'] ?? false;
+
+$letters_array = $letters_selected ? array_merge($capital_letters, $letters) : [];
+$numbers_array = $numbers_selected ? $numbers : [];
+$symbols_array = $symbols_selected ? $symbols : [];
 
 if ($pw_length) {
     session_start();
 
-    $_SESSION['generated_password'] = random_password($pw_length, $merged_characters, $repeat);
+    $_SESSION['generated_password'] = generate_random_password($pw_length, get_characters_array($letters_array, $numbers_array, $symbols_array, $merged_characters), $repeat);
 
     header('Location: ./pw_page.php');
 }
@@ -36,7 +43,7 @@ if ($pw_length) {
         <h2>Genera una Password sicura</h2>
     </header>
     <main class="container">
-        <form action="" method="GET" class="card d-flex p-5">
+        <form action="#" method="GET" class="card d-flex p-5">
             <div class="row row-cols-2 mb-3">
                 <div class="col mb-3">
                     <label for="pw-lenght">Lunghezza Password:</label>
@@ -47,12 +54,26 @@ if ($pw_length) {
                 <div class="col">
                     <p>Consenti la ripetizione di uno o più caratteri</p>
                 </div>
-                <div class="col d-flex flex-column align-items-start">
+                <div class="col d-flex flex-column align-items-start mb-3">
                     <div>
                         <input class="mb-2" type="radio" name="repeat" value="yes" id="yes" <?= $repeat === 'yes' ? 'checked' : '' ?>> <label for="yes">Si</label>
                     </div>
                     <div>
                         <input type="radio" name="repeat" value="no" id="no" <?= $repeat === 'no' ? 'checked' : '' ?>><label for="no">No</label>
+                    </div>
+                </div>
+                <div class="col offset-6 d-flex flex-column">
+                    <div>
+                        <input type="checkbox" name="letters" id="letters" <?= $letters_selected ? 'checked' : '' ?>>
+                        <label for="letters">Lettere</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="numbers" id="numbers" <?= $numbers_selected ? 'checked' : '' ?>>
+                        <label for="numbers">Numeri</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="symbols" id="symbols" <?= $symbols_selected ? 'checked' : '' ?>>
+                        <label for="symbols">Simboli</label>
                     </div>
                 </div>
             </div>
