@@ -13,12 +13,20 @@ $letters_array = $letters_selected ? array_merge($capital_letters, $letters) : [
 $numbers_array = $numbers_selected ? $numbers : [];
 $symbols_array = $symbols_selected ? $symbols : [];
 
+$warning_class = '';
+$warning_text = '';
+
 if ($pw_length) {
     session_start();
 
     $_SESSION['generated_password'] = generate_random_password($pw_length, get_characters_array($letters_array, $numbers_array, $symbols_array, $merged_characters), $repeat);
 
     header('Location: ./pw_page.php');
+}
+
+if (isset($_GET['pw-lenght']) && !$pw_length) {
+    $warning_class = 'alert alert-warning mb-3 text-center';
+    $warning_text = '<i class="fa-solid fa-triangle-exclamation"></i> Non hai inserito una lunghezza';
 }
 
 ?>
@@ -30,6 +38,8 @@ if ($pw_length) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- FONTAWESOME -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.css' integrity='sha512-FA9cIbtlP61W0PRtX36P6CGRy0vZs0C2Uw26Q1cMmj3xwhftftymr0sj8/YeezDnRwL9wtWw8ZwtCiTDXlXGjQ==' crossorigin='anonymous' />
     <!-- BOOTSTRAP -->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css' integrity='sha512-SbiR/eusphKoMVVXysTKG/7VseWii+Y3FdHrt0EpKgpToZeemhqHeZeLWLhJutz/2ut2Vw1uQEj2MbRF+TVBUA==' crossorigin='anonymous' />
     <!-- STYLESHEET -->
@@ -43,6 +53,9 @@ if ($pw_length) {
         <h2>Genera una Password sicura</h2>
     </header>
     <main class="container">
+        <div class="<?= $warning_class ?>" role="alert">
+            <?= $warning_text ?>
+        </div>
         <form action="#" method="GET" class="card d-flex p-5">
             <div class="row row-cols-2 mb-3">
                 <div class="col mb-3">
