@@ -2,6 +2,21 @@
 
 include 'partials/characters.php';
 
+$pw_length = $_GET['pw-lenght'] ?? null;
+
+function random_password($length, $characters)
+{
+    if (!$length || $length < 8 || $length > 20) {
+        return;
+    }
+    $generated_password = '';
+    for ($i = 0; $i < $length; $i++) {
+        $type_index = rand(0, count($characters) - 1);
+        $char_index = rand(0, count($characters[$type_index]) - 1);
+        $generated_password .= $characters[$type_index][$char_index];
+    }
+    return $generated_password;
+};
 
 
 ?>
@@ -32,12 +47,13 @@ include 'partials/characters.php';
                     <label for="pw-lenght">Lunghezza Password:</label>
                 </div>
                 <div class="col">
-                    <input type="number" id="pw-lenght" name="pw-lenght" min="8" max="20">
+                    <input type="number" id="pw-lenght" name="pw-lenght" min="8" max="20" value="<?= $pw_length ?>">
                 </div>
             </div>
             <div class="row">
                 <div class="col">
                     <button class="btn btn-primary">Invia</button>
+                    <a href="index.php" class="btn btn-secondary">Reset</a>
                 </div>
             </div>
         </form>
